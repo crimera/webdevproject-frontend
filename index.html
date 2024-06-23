@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <title>Transcript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body>
+    <nav class="flex flex-row w-full bg-gray-50 p-3 border-b relative px-4 lg:px-11 items-center">
+        <div class="flex flex-row flex-auto gap-3">
+            <img width="30px" src="scroll.png" />
+            <a class="inline font-bold text-xl" href="hero.html">
+                Transcriptor
+            </a>
+        </div>
+        <div id="links" class="invisible lg:visible">
+            <a href="#" class="text-blue-600 border-blue-200 hover:bg-blue-50">
+                Facebook
+            </a>
+            <a href="#" class="text-violet-900 border-violet-200 hover:bg-violet-50">
+                Discord
+            </a>
+            <a href="#" class="text-blue-400 border-blue-200 hover:bg-blue-50">
+                Twitter
+            </a>
+            <button id="logout-btn" class="text-red-400 border-red-200 hover:bg-red-50">
+                Logout
+            </button>
+        </div>
+    </nav>
+
+    <div id="main" class="flex flex-col lg:flex-row lg:mt-8 lg:mx-12">
+
+        <div class="flex flex-col flex-[1.25]">
+
+            <!-- Preview -->
+            <div id="previewDiv" class="flex flex-col justify-center content-center p-4 relative">
+                <div class="my-5">
+                    <label id="fileLabel" class="btn hover:bg-neutral-50 hover:cursor-pointer">
+                        <input class="hidden" type="file" id="file" name="file" onchange="loadAudio(event)" />
+                        Upload
+                    </label>
+                </div>
+
+                <video id="preview" class="border-2 bg-gray-50 border-dashed rounded h-40 lg:h-96 w-full"><video>
+            </div>
+
+            <!-- Controls -->
+            <div class="rounded-md gap-2 flex flex-col p-4 border mx-4 shadow-sm">
+                <label class="ml-1 font-semibold">Model</label>
+                <div class="flex flex-row gap-2">
+
+                    <select id="model" name="model" autocomplete="country-name" class="chooser">
+                        <option>Tiny En (31 MB)</option>
+                        <option>Tiny (31 MB)</option>
+                        <option>Small (181 MB)</option>
+                        <option>Medium (514 MB)</option>
+                    </select>
+
+                    <button class="btn" id="getModelBtn">Load</button>
+                </div>
+
+                <label class="ml-1 font-semibold">Language</label>
+
+                <div class="mb-2">
+                    <div x-data="{ switchOn: false }" class="flex items-center space-x-2">
+                        <input id="translate" type="checkbox" name="switch" class="hidden" :checked="switchOn">
+                        <button x-ref="switchButton" type="button" @click="switchOn = ! switchOn"
+                            :class="switchOn ? 'bg-blue-600' : 'bg-neutral-200'"
+                            class="relative inline-flex h-6 py-0.5 focus:outline-none rounded-full w-10" x-cloak>
+                            <span :class="switchOn ? 'translate-x-[18px]' : 'translate-x-0.5'"
+                                class="w-5 h-5 duration-200 ease-in-out bg-white rounded-full shadow-md"></span>
+                        </button>
+                        <label @click="$refs.switchButton.click(); $refs.switchButton.focus()" :id="$id('switch')"
+                            :class="{ 'text-blue-600': switchOn, 'text-neutral-700': ! switchOn }"
+                            class="text-sm select-none" x-cloak>
+                            Translate
+                        </label>
+
+                    </div>
+                </div>
+
+                <div>
+                    <button
+                        class="rounded-md py-1 px-2 w-full bg-black text-white border-none enabled:hover:bg-opacity-80 disabled:opacity-80"
+                        disabled id="processBtn">Generate
+                        Transcript</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transcript -->
+        <div id="transcriptContainer"
+            class="flex-[2] border p-4 bg-gray-50 pb-9 lg:w-32 lg:mt-0 mt-4 mx-4 lg:mx-0 lg:h-[730px] my-2">
+            <div class="flex gap-3 justify-between">
+                <p class="font-medium">Transcript</p>
+                <div id="spinner" class="spinner hidden"></div>
+                <button id="exportBtn" class="rounded-full hover:bg-gray-100" disabled>
+                    <img src="./public/share-outline.svg" class="size-10 p-2" alt="Export">
+                </button>
+            </div>
+            <div id="transcript" class="overflow-y-scroll mt-2 h-[630px]">
+            </div>
+        </div>
+    </div>
+
+    <!-- <script type="text/javascript" src="helpers.js"></script> -->
+    <!-- <script type="text/javascript" src="jquery-3.7.1.min.js"></script> -->
+    <script type="module" src="src/alpine.js"></script>
+    <script type="module" src="src/index.js"></script>
+    <script type='text/javascript' src="src/app.js"></script>
+    <script type="text/javascript" src="src/ui.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>

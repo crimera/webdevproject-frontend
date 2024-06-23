@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <title>Transcript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="flex flex-col">
+    <nav id="head" class="flex flex-row w-full bg-gray-50 p-3 border-b relative px-4 lg:px-11 items-center">
+        <div class="flex flex-row flex-auto gap-3">
+            <img width="30px" src="scroll.png" />
+            <a class="inline font-bold text-xl" href="hero.html">
+                Transcriptor
+            </a>
+        </div>
+        <div id="links" class="invisible lg:visible">
+            <a href="#" class="text-blue-600 border-blue-200 hover:bg-blue-50">
+                Facebook
+            </a>
+            <a href="#" class="text-violet-900 border-violet-200 hover:bg-violet-50">
+                Discord
+            </a>
+            <a href="#" class="text-blue-400 border-blue-200 hover:bg-blue-50">
+                Twitter
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main -->
+    <div class="hero">
+        <div class="flex flex-row">
+            <div class="leading-none hero-main flex flex-col gap-10 flex-1 pr-20">
+                <h1 class="font-bold text-[3rem]">Sign up</h1>
+                <p class="text-xl text-neutral-700">Create a new account</p>
+                <div class="flex flex-col gap-8 mt-8">
+                    <input id="username" name="username" type="text" placeholder="Username"
+                        class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 m-0" />
+
+                    <input id="password" name="password" type="password" placeholder="Password"
+                        class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 m-0" />
+
+                    <button id="login-btn" class="text-center outlined-button bg-black text-white w-full"
+                        style="border-radius: 5px;">
+                        Sign up
+                    </button>
+                </div>
+
+                <div class="flex flex-col gap-3 w-full">
+                    <a class="text-center w-full text-neutral-400">or</a>
+                    <a href="signup.html" class="text-center w-full">Log in</a>
+                </div>
+            </div>
+            <div class="flex-1 m-auto">
+                <img class="m-auto size-[80%] mb-12" src="ink.png" />
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module" src="src/signup.js"></script>
+</body>
+
+</html>

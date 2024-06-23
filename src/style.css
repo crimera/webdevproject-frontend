@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+    @apply border-[1.8px] py-1 px-2 rounded-md font-semibold shadow-sm enabled:hover:bg-neutral-50
+}
+
+#preview {
+    @apply h-20 lg:h-96 w-full
+}
+
+/* Notifications */
+
+#notif {
+    @apply absolute left-0 bottom-0 m-5 w-60 p-4 rounded-md shadow-lg border-2 bg-white z-50
+}
+
+#notif>h1 {
+    @apply text-black font-semibold
+}
+
+/* Main */
+.chooser {
+    @apply block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 p-2 bg-white
+}
+
+/* Transcript */
+.transcript {
+    @apply flex p-4 items-start relative
+}
+
+.transcript>#time {
+    @apply bg-white mt-0.5 rounded-xl px-2 text-blue-900
+}
+
+.transcript>p, input {
+    @apply ml-10 mr-10 w-full
+}
+
+.transcript.show:hover>#edit {
+    @apply visible
+}
+
+.transcript:hover {
+    @apply bg-white rounded-md shadow-sm
+}
+
+.transcript>#edit {
+    @apply invisible absolute right-0 mr-3
+}
+
+#transcriptContainer {
+    @apply rounded-lg shadow-sm
+}
+
+/* Hero */
+.hero {
+    @apply flex flex-col px-10 pt-28 lg:px-28 lg:pt-28 select-none
+}
+
+.hero img {
+    @apply hidden lg:block
+}
+
+.hero-main {
+    @apply lg:max-w-[800px]
+}
+
+.hero #desc {
+    @apply text-2xl lg:text-4xl lg:max-w-[80%] text-neutral-600
+}
+
+.hero h1 {
+    @apply text-4xl lg:text-6xl
+}
+
+.hero .card {
+    @apply mt-14
+}
+
+
+.hero .card.options {
+    @apply mt-0;
+}
+
+.card {
+    @apply backdrop-blur-xl border rounded-lg p-10 py-5 bg-gray-50
+}
+
+.outlined-button {
+    @apply border rounded-full p-2 text-xl lg:text-xl px-20 hover:opacity-80
+}
+
+#authors>p {
+    @apply text-base
+}
