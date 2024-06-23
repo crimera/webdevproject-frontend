@@ -32,9 +32,16 @@
     <!-- Main -->
     <div class="hero format">
         <div class="flex border rounded-md mb-4 p-3 gap-3">
-            <div class="flex flex-1">
-                <p>&#128279;</p>
-                <p id="file-value"></p>
+            <div class="flex flex-1 items-center">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon fill-current size-8 mr-2"
+                        viewBox="0 0 512 512">
+                        <path d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42"
+                            fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="36" />
+                    </svg>
+                </span>
+                <p id="file-value" class="mr-2"></p>
             </div>
             <div class="mt-[1px]">
                 <label id="fileLabel" class="btn hover:cursor-pointer">
@@ -43,50 +50,69 @@
                 </label>
             </div>
         </div>
-        <div class="card options flex-col flex gap-5 mb-3">
-            <p>Video Options</p>
-            <div class="option">
-                <h2>output:</h2>
-                <select id="format-voutput">
-                    <option>mp4</option>
-                    <option>webm</option>
-                    <option>mkv</option>
-                </select>
-            </div>
+        <div class="card options  flex gap-5 mb-3">
+            <div id="video-options" class="flex-1 flex flex-col gap-2">
+                <p class="font-medium">Video Options</p>
 
-            <div class="option">
-                <h2>codec:</h2>
-                <select id="format-vcodec">
-                    <option>copy</option>
-                    <option value="libx264">h264</option>
-                    <option value="copy">h265</option>
-                </select>
-            </div>
+                <div class="option">
+                    <label for="output">Output</label>
+                    <select id="format-voutput" autocomplete=":utput" class="">
+                        <option>mp4</option>
+                        <option>webm</option>
+                        <option>mkv</option>
+                    </select>
+                </div>
 
+                <div class="option">
+                    <label>Codec</label>
+                    <select id="format-vcodec">
+                        <option>copy</option>
+                        <option value="libx264">h264</option>
+                        <option value="libx265">h265</option>
+                    </select>
+                </div>
+
+            </div>
             <div class="border my-2"></div>
 
-            <p>Audio Options</p>
+            <div class="flex-1 flex flex-col gap-2">
+                <p class="font-medium">Audio Options</p>
 
-            <div class="option">
-                <h2>output:</h2>
-                <select id="format-aoutput">
-                    <option>mp3</option>
-                    <option>m4a</option>
-                    <option>wav</option>
-                </select>
-            </div>
+                <div class="mt-2">
+                    <div id="extract-audio-container" x-data="{ switchOn: false }" class="flex items-center">
+                        <input id="extract-audio" type="checkbox" name="switch" class="hidden" :checked="switchOn">
+                        <button x-ref="switchButton" type="button" @click="switchOn = ! switchOn"
+                            :class="switchOn ? 'bg-blue-600' : 'bg-neutral-200'"
+                            class="relative inline-flex h-6 py-0.5 focus:outline-none rounded-full w-10" x-cloak>
+                            <span :class="switchOn ? 'translate-x-[18px]' : 'translate-x-0.5'"
+                                class="w-5 h-5 duration-200 ease-in-out bg-white rounded-full shadow-md"></span>
+                        </button>
+                        <label @click="$refs.switchButton.click(); $refs.switchButton.focus()" :id="$id('switch')"
+                            :class="{ 'text-blue-600': switchOn, 'text-black': ! switchOn }" class="ml-2 select-none"
+                            x-cloak>
+                            Extract audio
+                        </label>
 
-            <div class="option items-center">
-                <h2>remove audio:</h2>
-                <div class="size-5">
-                    <input type="checkbox" class="m-0 size-[100%]"></input>
+                    </div>
                 </div>
+
+                <div class="option">
+                    <label>Output</label>
+                    <select disabled id="format-aoutput">
+                        <option>mp3</option>
+                        <option>m4a</option>
+                        <option>wav</option>
+                    </select>
+                </div>
+
             </div>
 
-            <div class="text-right">
-                <button id="format-convert" class="btn convertBtn" type="submit">Convert</button>
-            </div>
         </div>
+
+        <div class="text-right">
+            <button id="format-convert" class="btn convertBtn" type="submit">Convert</button>
+        </div>
+
         <div class="progress">
             <div id="convert-progress"></div>
         </div>
@@ -95,32 +121,7 @@
         </div>
     </div>
 
-    </div>
-
-    <footer>
-        <div class="flex flex-col gap-[1.2px] flex-1">
-            <h1 class="font-semibold text-lg">Transcriptor</h1>
-            <a href="about.html">About</a>
-            <a href="#">Terms & policies</a>
-            <a href="#">Privacy policy</a>
-        </div>
-        <div class="flex flex-1 flex-col" id="foot-links">
-            <div class="flex-1 self-center">
-                <a href="#" id="fb">Facebook</a>
-                <a href="#" id="disc">Discord</a>
-                <a href="#" id="x">Twitter</a>
-            </div>
-            <div class="flex-1 self-center">
-                <a href="#" class="hover:font-semibold">Back to top</a>
-            </div>
-        </div>
-        <div class="flex flex-col gap-[1.2px] flex-1 items-end justify-center">
-            <div class="pr-8">
-                <img width="60px" height="60px" src="scroll.png" />
-            </div>
-        </div>
-    </footer>
-
+    <script type="module" src="src/alpine.js"></script>
     <script type="module" src="src/format.js"></script>
 </body>
 

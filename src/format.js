@@ -1,4 +1,5 @@
-import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg"
+import $ from "jquery"
 
 /** @type {HTMLParagraphElement} **/
 let formatFileValue = document.getElementById("file-value")
@@ -19,11 +20,24 @@ let outputNode = document.getElementById("format-voutput")
 let vCodecNode = document.getElementById("format-vcodec")
 
 /** @type {HTMLSelectElement} **/
-let formatNode = document.getElementById("format-aoutput")
+let audioOutput = document.getElementById("format-aoutput")
 
 /** @type {HTMLDivElement} **/
 let logs = document.getElementById("logs")
 
+let extractAudio = $("#extract-audio")
+
+$("#extract-audio-container").on("click", () => {
+    if (extractAudio.is(':checked')) {
+        vCodecNode.disabled = true
+        outputNode.disabled = true
+        audioOutput.disabled = false
+    } else {
+        vCodecNode.disabled = false
+        outputNode.disabled = false
+        audioOutput.disabled = true
+    }
+})
 
 /** @type {HTMLDivElement} **/
 let progressNode = document.getElementById("convert-progress")
@@ -60,8 +74,17 @@ async function transcode(file) {
 
     ffmpeg.FS('writeFile', file.name, await fetchFile(file))
 
-    await ffmpeg.run('-i', file.name, '-vcodec', codec, '-acodec', 'copy', `output.${format}`)
-    const data = ffmpeg.FS('readFile', `output.${format}`);
+    let data = null
+
+    if (extractAudio.is(':checked')) {
+        console.log("audio only")
+        await ffmpeg.run('-i', file.name, `output.${audioOutput.value}`)
+        data = ffmpeg.FS('readFile', `output.${audioOutput.value}`);
+    } else {
+        await ffmpeg.run('-i', file.name, '-vcodec', 'copy', `output.${format}`)
+        data = ffmpeg.FS('readFile', `output.${format}`);
+    }
+
 
     console.log("read")
 

@@ -61,7 +61,22 @@ $.ajax({
 
         $(".delete-btn").each((_, button) => {
             button.addEventListener("click", () => {
-                console.log(button.id)
+                $.ajax({
+                    method: "POST",
+                    url: 'http://localhost:8080/delHistory',
+                    data: {
+                        id: button.id
+                    },
+                    success: (res) => {
+                        if (res == "") {
+                            console.log("Delete failed")
+                            return
+                        }
+
+                        console.log(res)
+                        window.location.reload()
+                    }
+                })
             })
         })
     }
