@@ -19,3 +19,13 @@ export function lock() {
         }
     })
 }
+
+export function logOut() {
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/logout'
+    })
+
+    window.location.reload()
+
+}

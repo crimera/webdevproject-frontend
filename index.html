@@ -4,6 +4,7 @@
 <head>
     <title>Transcript</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="output.css">
 </head>
 
@@ -44,7 +45,7 @@
                     </label>
                 </div>
 
-                <video id="preview" class="border-2 bg-gray-50 border-dashed rounded h-40 lg:h-96 w-full"><video>
+                <video id="preview" class="border-2 bg-gray-50 border-dashed rounded lg:h-96 w-full"><video>
             </div>
 
             <!-- Controls -->
@@ -95,8 +96,10 @@
         <div id="transcriptContainer"
             class="flex-[2] border p-4 bg-gray-50 pb-9 lg:w-32 lg:mt-0 mt-4 mx-4 lg:mx-0 lg:h-[730px] my-2">
             <div class="flex gap-3 justify-between">
-                <p class="font-medium">Transcript</p>
-                <div id="spinner" class="spinner hidden"></div>
+                <div class="flex gap-2">
+                    <p class="font-medium items-top">Transcript</p>
+                    <div id="spinner" class=""></div>
+                </div>
                 <button id="exportBtn" class="rounded-full hover:bg-gray-100" disabled>
                     <img src="./public/share-outline.svg" class="size-10 p-2" alt="Export">
                 </button>

@@ -8,6 +8,7 @@ let audio = null
 let context = null
 let filename = null
 
+
 function parseModel(model) {
     let c = model.indexOf("(")
     return model
@@ -207,6 +208,16 @@ function cbProgress(message) {
     console.log(message);
 }
 
+function saveToHistory(script) {
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/save',
+        data: {
+            transcript: JSON.stringify(script)
+        }
+    })
+}
+
 let exportBtn = document.getElementById("exportBtn")
 exportBtn.addEventListener('click', () => {
     let srt = []
@@ -214,6 +225,18 @@ exportBtn.addEventListener('click', () => {
     script.forEach(item => {
         srt.push(tsToSrt(item, ++i))
     })
+
+    const jason = {
+        name: filename,
+        transcript: []
+    }
+
+    script.forEach(item => {
+        jason.transcript.push(tsToJson(item))
+    })
+
+    saveToHistory(jason)
+    console.log(jason)
 
     downloadString(srt.join('\n\n'), "text/plain", fileToSrt(filename))
 })
@@ -232,7 +255,7 @@ var Module = {
     printErr: (message) => {
         if (message.includes("whisper_print_timings")) {
             notify("Done...")
-            spinner.style.display = 'none'
+            spinner.classList.toggle("spinner")
             exportBtn.removeAttribute("disabled")
 
             var list = document.getElementsByClassName("transcript");
@@ -307,6 +330,29 @@ function resetExport() {
 }
 
 function loadAudio(event) {
+    // upload vid to server
+
+    const fd = new FormData();
+
+    console.log(event.target.files)
+
+    // add all selected files
+    Array.from(event.target.files).forEach((file) => {
+        fd.append(event.target.name, file, file.name);
+    });
+
+    // create the request
+    const xhr = new XMLHttpRequest();
+    xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // we done!
+        }
+    };
+
+    // path to server would be where you'd normally post the form to
+    xhr.open('POST', 'http://localhost:8080/upload', true);
+    xhr.send(fd);
+
     exportBtn.setAttribute("disabled", true)
     notify("Loading file...")
     transcriptNode.innerHTML = ''
@@ -400,7 +446,7 @@ function onProcess(translate) {
 
         transcriptNode.innerHTML = ''
         notify("Generating transcript...")
-        spinner.style.display = 'block'
+        spinner.classList.toggle('spinner')
 
         setTimeout(function() {
             var ret = Module.full_default(instance, audio, "en", nthreads, translate);
@@ -470,6 +516,17 @@ function editContent(node, e) {
         node.textContent = "Edit"
         return
     }
+}
+
+function tsToJson(ts) {
+    let timestamp = ts.match(timeStampRe)[0]
+    let time = parseTimeStamp(timestamp)
+
+    let data = {
+        start: `${time.start.hour}:${time.start.minute}:${time.start.seconds}`, end: `${time.end.hour}:${time.end.minute}:${time.end.seconds}`, caption: ts.replace(timestamp, "").trim()
+    }
+
+    return data
 }
 
 function tsToSrt(ts, index) {
@@ -551,7 +608,7 @@ function parseTimeStamp(timestamp) {
         milis: startComplete[2].slice(-3)
     }
     let end = {
-        hour: endComplete[0],
+        hour: endComplete[0].trim(),
         minute: endComplete[1],
         seconds: endComplete[2].slice(0, 2),
         milis: endComplete[2].slice(-3)

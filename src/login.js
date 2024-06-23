@@ -37,7 +37,7 @@ loginBtn.on("click", () => {
 
             // TODO: do something when logged in, redirect to index.html
             console.log(res)
-            window.location.href = "index.html"
+            window.location.href = "history.html"
         }
     })
 })

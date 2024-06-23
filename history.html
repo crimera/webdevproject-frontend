@@ -25,6 +25,9 @@
             <a href="#" class="text-blue-400 border-blue-200 hover:bg-blue-50">
                 Twitter
             </a>
+            <button id="logout-btn" onclick="" class="text-red-400 border-red-200 hover:bg-red-50">
+                Logout
+            </button>
         </div>
     </nav>
 
@@ -43,18 +46,31 @@
             </a>
         </div>
 
-        <button id="save-btn" class="text-red-500 bg-zinc-50 border">Save</button>
-
-        <div class="border h-[600px] rounded">
-            <h1 class="text-xl font-medium mx-4 border-b py-4">Transcriptions</h1>
-
-            <div class="flex mx-4 hover:bg-gray-50 py-4">
-                <img src="ink.png" class="size-20" alt="thumbnail">
-                <div class="mx-4 flex flex-col">
-                    <h2 class="text-xl font-medium text-neutral-500">Title</h2>
-                    <div class="leading-6 h-[3em] overflow-hidden">
-                        <p>bruh wtheck<br>shit<br>bruh<br>fuck you</p>
+        <div class="border lg:h-[600px] h-[700px]">
+            <h1 class="text-xl font-medium px-4 border-b py-4">Transcriptions</h1>
+            <div id="historyContainer" class="rounded overflow-auto lg:h-[538px] h-[638px]">
+                <div class="historyItem flex px-4 hover:bg-gray-50 py-2 items-center justify-between hidden">
+                    <div class="flex items-center">
+                        <img crossorigin="anonymous" src="http://localhost:8080/thumb.php?img=${basename}.jpg"
+                            class="size-24 object-contain" alt="thumbnail">
+                        <div class="mx-4 flex flex-col">
+                            <h2 class="text-xl font-medium text-neutral-500">${i.item.name}</h2>
+                            <div class="leading-6 h-[3em] overflow-hidden">
+                                <p>${summary}</p>
+                            </div>
+                        </div>
                     </div>
+
+                    <button
+                        class="delete-btn inline-flex items-center justify-center p-2 hover:bg-gray-100 rounded-full hover:text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon fill-current size-8"
+                            viewBox="0 0 512 512">
+                            <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                                fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" />
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="32" d="M320 320L192 192M192 320l128-128" />
+                        </svg>
+                    </button>
                 </div>
             </div>
 
