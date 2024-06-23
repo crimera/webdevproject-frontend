@@ -25,7 +25,7 @@ $.ajax({
             let summary = ""
 
             i.item.transcript.forEach((transcript) => {
-                summary += `${transcript.caption}. `
+                summary += `${transcript.caption} `
             })
 
             let basename = i.item.name.split(".")[0]
@@ -33,7 +33,7 @@ $.ajax({
             console.log(basename)
 
             $("#historyContainer").append(`
-                <div class="historyItem flex px-4 hover:bg-gray-50 py-2 items-center justify-between">
+                <div id=${i.id} class="historyItem flex px-4 hover:bg-gray-50 py-2 items-center justify-between">
                     <div class="flex items-center">
                         <img crossorigin="anonymous" src="http://localhost:8080/thumb.php?img=${basename}.jpg"
                             class="size-24 object-contain" alt="thumbnail">
@@ -57,6 +57,12 @@ $.ajax({
                     </button>
                 </div>
             `)
+        })
+
+        $(".historyItem").each((_, item) => {
+            item.addEventListener("click", () => {
+                window.location.href = `edit.html?id=${item.id}`
+            })
         })
 
         $(".delete-btn").each((_, button) => {

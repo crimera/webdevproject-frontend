@@ -1,0 +1,75 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+    <title>Transcriptor</title>
+</head>
+
+<body>
+    <nav class="flex flex-row w-full bg-gray-50 p-3 border-b relative px-4 lg:px-11 items-center">
+        <div class="flex flex-row flex-auto gap-3">
+            <img width="30px" src="scroll.png" />
+            <a class="inline font-bold text-xl" href="hero.html">
+                Transcriptor
+            </a>
+        </div>
+        <div id="links" class="invisible lg:visible">
+            <a href="#" class="text-blue-600 border-blue-200 hover:bg-blue-50">
+                Facebook
+            </a>
+            <a href="#" class="text-violet-900 border-violet-200 hover:bg-violet-50">
+                Discord
+            </a>
+            <a href="#" class="text-blue-400 border-blue-200 hover:bg-blue-50">
+                Twitter
+            </a>
+            <button id="logout-btn" class="text-red-400 border-red-200 hover:bg-red-50">
+                Logout
+            </button>
+        </div>
+    </nav>
+
+    <div class="flex mt-6 mx-10">
+        <!-- Preview -->
+        <div class="flex-1 flex flex-col justify-center content-center p-4 relative">
+            <h1 id="filename" class="mb-2 font-medium text-neutral-700"></h1>
+            <video crossorigin="anonymous" id="preview" controls
+                class="border-2 bg-gray-50 border-dashed rounded lg:h-96 w-full"><video>
+        </div>
+        <!-- Transcript -->
+        <div id="transcriptContainer"
+            class="flex-[2] border p-4 bg-gray-50 pb-9 lg:w-32 lg:mt-0 mt-4 mx-4 lg:mx-0 lg:h-[730px] my-2">
+            <div class="flex gap-3 justify-between">
+                <div class="flex gap-2">
+                    <p class="font-medium items-top">Transcript</p>
+                    <div id="spinner" class=""></div>
+                </div>
+                <div class="flex items-center">
+
+                    <!-- Export Button -->
+                    <button id="exportBtn" class="rounded-full enabled:hover:bg-gray-100 disabled:opacity-50">
+                        <img src="./public/share-outline.svg" class="size-10 p-2" alt="Export">
+                    </button>
+
+                    <!-- Save Button -->
+                    <button id="save-btn" class="rounded-full enabled:hover:bg-gray-100 disabled:opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon fill-current size-10 p-2"
+                            viewBox="0 0 512 512">
+                            <path d="M352 48H160a48 48 0 00-48 48v368l144-128 144 128V96a48 48 0 00-48-48z" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="32" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="transcript" class="overflow-y-scroll mt-2 h-[630px]">
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/edit.js"></script>
+</body>
+
+</html>

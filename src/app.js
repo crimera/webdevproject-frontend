@@ -209,11 +209,20 @@ function cbProgress(message) {
 }
 
 function saveToHistory(script) {
+    const jason = {
+        name: filename,
+        transcript: []
+    }
+
+    script.forEach(item => {
+        jason.transcript.push(tsToJson(item))
+    })
+
     $.ajax({
         method: "POST",
         url: 'http://localhost:8080/save',
         data: {
-            transcript: JSON.stringify(script)
+            transcript: JSON.stringify(jason)
         }
     })
 }
@@ -226,19 +235,13 @@ exportBtn.addEventListener('click', () => {
         srt.push(tsToSrt(item, ++i))
     })
 
-    const jason = {
-        name: filename,
-        transcript: []
-    }
-
-    script.forEach(item => {
-        jason.transcript.push(tsToJson(item))
-    })
-
-    saveToHistory(jason)
-    console.log(jason)
-
     downloadString(srt.join('\n\n'), "text/plain", fileToSrt(filename))
+})
+
+$("#save-btn").on("click", () => {
+    console.log("shit")
+    saveToHistory(script)
+    notify("Saved to history")
 })
 
 function fileToSrt(name) {
@@ -257,6 +260,7 @@ var Module = {
             notify("Done...")
             spinner.classList.toggle("spinner")
             exportBtn.removeAttribute("disabled")
+            $("#save-btn").prop("disabled", false)
 
             var list = document.getElementsByClassName("transcript");
             for (let item of list) {

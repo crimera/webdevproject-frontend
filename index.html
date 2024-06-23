@@ -100,9 +100,23 @@
                     <p class="font-medium items-top">Transcript</p>
                     <div id="spinner" class=""></div>
                 </div>
-                <button id="exportBtn" class="rounded-full hover:bg-gray-100" disabled>
-                    <img src="./public/share-outline.svg" class="size-10 p-2" alt="Export">
-                </button>
+                <div class="flex items-center">
+
+                    <!-- Export Button -->
+                    <button id="exportBtn" class="rounded-full enabled:hover:bg-gray-100 disabled:opacity-50" disabled>
+                        <img src="./public/share-outline.svg" class="size-10 p-2" alt="Export">
+                    </button>
+
+                    <!-- Save Button -->
+                    <button id="save-btn" class="rounded-full enabled:hover:bg-gray-100 disabled:opacity-50" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon fill-current size-10 p-2"
+                            viewBox="0 0 512 512">
+                            <path d="M352 48H160a48 48 0 00-48 48v368l144-128 144 128V96a48 48 0 00-48-48z" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="32" />
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div id="transcript" class="overflow-y-scroll mt-2 h-[630px]">
             </div>
