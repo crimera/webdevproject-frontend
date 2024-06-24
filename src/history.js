@@ -1,7 +1,11 @@
 import $ from "jquery"
-import { lock, logOut } from "./utils"
+import { getUser, lock, logOut } from "./utils"
 
 lock()
+
+getUser().then((username) => {
+    $("#username").text(username)
+})
 
 export function saveToHistory(script) {
     $.ajax({

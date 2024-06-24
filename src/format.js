@@ -85,7 +85,6 @@ async function transcode(file) {
         data = ffmpeg.FS('readFile', `output.${format}`);
     }
 
-
     console.log("read")
 
     video.controls = "controls"

@@ -569,6 +569,11 @@ video {
   margin-right: 2.5rem;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -640,6 +645,10 @@ video {
   margin-top: 1px;
 }
 
+.block {
+  display: block;
+}
+
 .inline {
   display: inline;
 }
@@ -664,11 +673,6 @@ video {
 .size-24 {
   width: 6rem;
   height: 6rem;
-}
-
-.size-60 {
-  width: 15rem;
-  height: 15rem;
 }
 
 .size-8 {
@@ -1005,10 +1009,6 @@ video {
 
 .pb-9 {
   padding-bottom: 2.25rem;
-}
-
-.pr-20 {
-  padding-right: 5rem;
 }
 
 .pr-8 {
@@ -1505,6 +1505,53 @@ video {
   }
 }
 
+/* Modal */
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  /* Could be more or less, depending on screen size */
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+
+input[type=time]::-webkit-clear-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  margin: -10px;
+}
+
 .placeholder\:text-neutral-500::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(115 115 115 / var(--tw-text-opacity));
@@ -1633,6 +1680,10 @@ video {
     margin-top: 2rem;
   }
 
+  .lg\:block {
+    display: block;
+  }
+
   .lg\:h-96 {
     height: 24rem;
   }
@@ -1660,6 +1711,10 @@ video {
   .lg\:px-11 {
     padding-left: 2.75rem;
     padding-right: 2.75rem;
+  }
+
+  .lg\:pr-20 {
+    padding-right: 5rem;
   }
 
   .lg\:text-2xl {

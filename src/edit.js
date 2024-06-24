@@ -82,6 +82,19 @@ $("#save-btn").on("click", () => {
     saveToHistory(script)
 })
 
+$("#add-btn").on("click", () => {
+    console.log("add clicked")
+    $("#myModal").css("display", "block")
+})
+
+
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal")
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 let exportBtn = document.getElementById("exportBtn")
 exportBtn.addEventListener('click', () => {
     let srt = tsToSrt(script)
