@@ -1,43 +1,31 @@
 import $ from "jquery";
+import { isLoggedIn } from "./utils";
 
 console.log("working")
 
-let username = $("#username")
-let password = $("#password")
-
-let loginBtn = $("#login-btn")
-
-let inputs = [$("#username"), $("#password")]
-
-inputs.forEach((input) => {
-    input.on("keypress", (e) => {
-        if (e.which == 13) {
-            loginBtn.trigger("click")
-        }
-    })
+isLoggedIn().then((res) => {
+    if (res) {
+        window.location.href = "history.html"
+    }
 })
 
-loginBtn.on("click", () => {
-    if (username == "" && password == "") {
-        return
-    }
+let loginForm = $("#login-form")
+
+loginForm.on("submit", (e) => {
+    e.preventDefault()
 
     $.ajax({
         type: "POST",
         url: 'http://localhost:8080/login',
-        data: {
-            username: username.val(),
-            password: password.val()
-        },
+        data: loginForm.serialize(),
         success: (res) => {
             if (res == "") {
                 loginFailed()
                 return
             }
 
-            // TODO: do something when logged in, redirect to index.html
             console.log(res)
-            window.location.href = "history.html"
+            window.location.href = "login.html"
         }
     })
 })

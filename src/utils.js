@@ -1,7 +1,7 @@
 import $ from "jquery"
 
 
-async function isLoggedIn() {
+export async function isLoggedIn() {
     let result = await $.ajax({
         type: "POST",
         url: 'http://localhost:8080/check',

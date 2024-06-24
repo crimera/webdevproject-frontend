@@ -16,15 +16,6 @@
             </a>
         </div>
         <div id="links" class="invisible lg:visible">
-            <a href="#" class="text-blue-600 border-blue-200 hover:bg-blue-50">
-                Facebook
-            </a>
-            <a href="#" class="text-violet-900 border-violet-200 hover:bg-violet-50">
-                Discord
-            </a>
-            <a href="#" class="text-blue-400 border-blue-200 hover:bg-blue-50">
-                Twitter
-            </a>
         </div>
     </nav>
 
@@ -34,18 +25,18 @@
             <div class="leading-none hero-main flex flex-col gap-10 flex-1 lg:pr-20">
                 <h1 class="font-bold text-[3rem]">Login</h1>
                 <p class="text-xl text-neutral-700">Please login to continue</p>
-                <div class="flex flex-col gap-8 mt-8">
-                    <input id="username" name="username" type="text" placeholder="Username"
+                <form id="login-form" class="flex flex-col gap-8 mt-8">
+                    <input required id="username" name="username" type="text" placeholder="Username"
                         class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 m-0" />
 
-                    <input id="password" name="password" type="password" placeholder="Password"
+                    <input required id="password" name="password" type="password" placeholder="Password"
                         class="flex w-full h-10 px-3 py-2 text-sm bg-white border rounded-md border-neutral-300 ring-offset-background placeholder:text-neutral-500 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 m-0" />
 
                     <button id="login-btn" class="text-center outlined-button bg-black text-white w-full"
                         style="border-radius: 5px;">
                         Login
                     </button>
-                </div>
+                </form>
 
                 <div class="flex flex-col gap-3 w-full">
                     <a class="text-center w-full text-neutral-400">or</a>

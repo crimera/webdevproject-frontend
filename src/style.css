@@ -190,3 +190,7 @@ input[type=time]::-webkit-clear-button {
     appearance: none;
     margin: -10px;
 }
+
+#logout-btn {
+    @apply text-red-400 border-red-200 hover:bg-red-50
+}

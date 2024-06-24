@@ -1,34 +1,23 @@
 import $ from "jquery";
+import { isLoggedIn } from "./utils";
 
 console.log("working")
 
-let username = $("#username")
-let password = $("#password")
+let signupForm = $("#signup-form")
 
-let loginBtn = $("#login-btn")
-
-let inputs = [$("#username"), $("#password")]
-
-inputs.forEach((input) => {
-    input.on("keypress", (e) => {
-        if (e.which == 13) {
-            loginBtn.trigger("click")
-        }
-    })
+isLoggedIn().then((res) => {
+    if (res) {
+        window.location.href = "history.html"
+    }
 })
 
-loginBtn.on("click", () => {
-    if (username == "" && password == "") {
-        return
-    }
+signupForm.on("submit", (e) => {
+    e.preventDefault()
 
     $.ajax({
         type: "POST",
         url: 'http://localhost:8080/signup',
-        data: {
-            username: username.val(),
-            password: password.val()
-        },
+        data: signupForm.serialize(),
         success: (res) => {
             if (res == "") {
                 signupFailed()
