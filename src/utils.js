@@ -41,3 +41,7 @@ export function logOut() {
     window.location.reload()
 
 }
+
+export function banned() {
+    $("#myModal").css("display", "block")
+}

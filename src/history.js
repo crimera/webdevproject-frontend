@@ -64,8 +64,10 @@ $.ajax({
         })
 
         $(".historyItem").each((_, item) => {
-            item.addEventListener("click", () => {
-                window.location.href = `edit.html?id=${item.id}`
+            item.addEventListener("click", (e) => {
+                if (e.target === item) {
+                    window.location.href = `edit.html?id=${item.id}`
+                }
             })
         })
 

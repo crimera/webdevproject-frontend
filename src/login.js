@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { isLoggedIn } from "./utils";
+import { isLoggedIn, banned } from "./utils";
 
 console.log("working")
 
@@ -24,11 +24,22 @@ loginForm.on("submit", (e) => {
                 return
             }
 
-            console.log(res)
+            if (res == "banned") {
+                banned()
+                return
+            }
+
             window.location.href = "login.html"
         }
     })
 })
+
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal")
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 function loginFailed() {
     // TODO: show login failed error

@@ -14,6 +14,16 @@ isLoggedIn().then((res) => {
 signupForm.on("submit", (e) => {
     e.preventDefault()
 
+    let error = $("#error-container")
+
+    error.addClass("invisible")
+
+    if ($("#passwordConfirm").val() != $("#password").val()) {
+        error.text("Error: password confirmation is not the same")
+        error.removeClass("invisible")
+        return
+    }
+
     $.ajax({
         type: "POST",
         url: 'http://localhost:8080/signup',
@@ -35,3 +45,4 @@ function signupFailed() {
     // TODO: show signup failed error
     console.log("failed")
 }
+
