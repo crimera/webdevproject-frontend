@@ -36,10 +36,15 @@ $.ajax({
 
             console.log(basename)
 
+            let image = `http://localhost:8080/thumb.php?img=${basename}.jpg`
+            if (i.audio == "1") {
+                image = "./musical-notes-outline.svg"
+            }
+
             $("#historyContainer").append(`
                 <div id=${i.id} class="historyItem flex px-4 hover:bg-gray-50 py-2 items-center justify-between">
                     <div class="flex items-center">
-                        <img crossorigin="anonymous" src="http://localhost:8080/thumb.php?img=${basename}.jpg"
+                        <img crossorigin="anonymous" src="${image}"
                             class="size-24 object-contain" alt="thumbnail">
                         <div class="mx-4 flex flex-col">
                             <h2 class="text-xl font-medium text-neutral-500">${i.item.name}</h2>

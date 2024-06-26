@@ -34,7 +34,7 @@ let processBtn = document.getElementById('processBtn')
 processBtn.addEventListener('click', function() {
     let translate = document.getElementById("translate").checked
 
-    onProcess(this.translate)
+    onProcess(translate)
 })
 
 let transcriptNode = document.getElementById('transcript')
@@ -208,6 +208,21 @@ function cbProgress(message) {
     console.log(message);
 }
 
+function getFileExtension(file) {
+    return file.split('.').pop();
+}
+
+function contains(object, myarr) {
+    return myarr.indexOf(object) > -1
+}
+
+function isAudio(file) {
+    let extention = getFileExtension(file)
+    let audioExtenions = ["mp3", "wav", "opus", "m4a"]
+
+    return contains(extention, audioExtenions)
+}
+
 function saveToHistory(script) {
     const jason = {
         name: filename,
@@ -222,7 +237,12 @@ function saveToHistory(script) {
         method: "POST",
         url: 'http://localhost:8080/save',
         data: {
+            audio: isAudio(filename),
             transcript: JSON.stringify(jason)
+        },
+        success: (respo) => {
+            console.log("saved")
+            console.log(respo)
         }
     })
 }
@@ -239,7 +259,6 @@ exportBtn.addEventListener('click', () => {
 })
 
 $("#save-btn").on("click", () => {
-    console.log("shit")
     saveToHistory(script)
     notify("Saved to history")
 })
@@ -252,8 +271,17 @@ function fileToSrt(name) {
 
 var Module = {
     print: (message) => {
+        // clean
         console.log(message)
-        addTranscript(message)
+        let getSquareBracket = message.indexOf("[")
+        let scrpt = message
+        if (getSquareBracket == -1) {
+            return
+        }
+        if (getSquareBracket >= 0) {
+            scrpt = message.substr(getSquareBracket)
+        }
+        addTranscript(scrpt)
     },
     printErr: (message) => {
         if (message.includes("whisper_print_timings")) {
@@ -543,7 +571,7 @@ function tsToJson(ts) {
     let time = parseTimeStamp(timestamp)
 
     let data = {
-        start: `${time.start.hour}:${time.start.minute}:${time.start.seconds}`, end: `${time.end.hour}:${time.end.minute}:${time.end.seconds}`, caption: ts.replace(timestamp, "").trim()
+        start: `${time.start.hour}:${time.start.minute}:${time.start.seconds}:${time.start.millis}`, end: `${time.end.hour}:${time.end.minute}:${time.end.seconds}:${time.end.millis}`, caption: ts.replace(timestamp, "").trim()
     }
 
     return data
@@ -573,8 +601,9 @@ function timeToSeconds(parsedTimeStamp) {
     let hour = Number(parsedTimeStamp.hour) * 3600
     let minute = Number(parsedTimeStamp.minute) * 60
     let second = Number(parsedTimeStamp.seconds)
+    let millis = Number(parsedTimeStamp.millis) / 1000
 
-    return hour + minute + second
+    return hour + minute + second + millis
 }
 
 // Utils
@@ -621,9 +650,11 @@ function toggleProcessBtn() {
 }
 
 function parseTimeStamp(timestamp) {
+    timestamp = timestamp.substr(0, timestamp.indexOf("]"))
     timestamp = timestamp
         .replace('[', '')
         .replace(']', '')
+
 
     timestamp = timestamp.split('-->')
     let startComplete = timestamp[0].split(':')
@@ -633,13 +664,13 @@ function parseTimeStamp(timestamp) {
         hour: startComplete[0],
         minute: startComplete[1],
         seconds: startComplete[2].slice(0, 2),
-        milis: startComplete[2].slice(-3)
+        millis: startComplete[2].split(".").pop()
     }
     let end = {
         hour: endComplete[0].trim(),
         minute: endComplete[1],
         seconds: endComplete[2].slice(0, 2),
-        milis: endComplete[2].slice(-3)
+        millis: endComplete[2].split(".").pop()
     }
 
     return {

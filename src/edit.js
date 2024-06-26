@@ -34,7 +34,12 @@ function tsToSrt(script) {
     let srt = []
 
     script.forEach((item, index) => {
-        let time = `${item.start},000 --> ${item.end},000`
+        let start = item.start.split(":")
+        let end = item.end.split(":")
+        let startMillis = start.pop()
+        let endMillis = end.pop()
+
+        let time = `${start.join(":")},${startMillis} --> ${end.join(":")},${endMillis}`
         srt.push(`${index + 1}\n${time}\n${item.caption}`)
     })
 
@@ -176,8 +181,9 @@ function timeToSeconds(timeString) {
     let hour = Number(split[0]) * 3600
     let minute = Number(split[1]) * 60
     let second = Number(split[2])
+    let millis = Number(split[3]) / 1000
 
-    return hour + minute + second
+    return hour + minute + second + millis
 }
 
 $("#preview").on("timeupdate", (e) => {
