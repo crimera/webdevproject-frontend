@@ -10,4 +10,3 @@ getUser().then((username) => {
 $("#logout-btn").on("click", () => {
     logOut()
 })
-

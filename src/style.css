@@ -45,6 +45,10 @@
     @apply flex p-4 items-start relative
 }
 
+.transcript.current {
+    @apply bg-blue-200 rounded-md shadow-sm
+}
+
 .transcript>#time {
     @apply bg-white mt-0.5 rounded-xl px-2 text-blue-900
 }

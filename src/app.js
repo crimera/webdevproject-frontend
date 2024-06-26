@@ -326,6 +326,22 @@ function loadPreview(file) {
     node.class = "border rounded"
     node.controls = true
     document.getElementById("preview").replaceWith(node)
+
+
+    document.getElementById("preview").addEventListener("timeupdate", (e) => {
+        let time = e.target.currentTime
+        script.forEach((i, index) => {
+            let parsedTimeStamp = parseTimeStamp(i)
+            let start = timeToSeconds(parsedTimeStamp.start)
+            let end = timeToSeconds(parsedTimeStamp.end)
+
+            if (time >= start && time <= end) {
+                document.getElementById("transcript").children[index].children[0].classList.add("current")
+            } else {
+                document.getElementById("transcript").children[index].children[0].classList.remove("current")
+            }
+        })
+    })
 }
 
 function resetExport() {
@@ -551,6 +567,14 @@ function scrollBottom(transcriptNode) {
         top: transcriptNode.scrollHeight,
         behavior: "smooth"
     })
+}
+
+function timeToSeconds(parsedTimeStamp) {
+    let hour = Number(parsedTimeStamp.hour) * 3600
+    let minute = Number(parsedTimeStamp.minute) * 60
+    let second = Number(parsedTimeStamp.seconds)
+
+    return hour + minute + second
 }
 
 // Utils

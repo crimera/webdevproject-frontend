@@ -1,5 +1,5 @@
 import $ from "jquery"
-import { isLoggedIn } from "./utils"
+import { delteHistoryItem, isLoggedIn } from "./utils"
 
 async function checkPriviledge(username) {
     let result = await $.ajax({
@@ -20,6 +20,8 @@ isLoggedIn().then((res) => {
                 window.location.href = "hero.html"
             }
         })
+    } else {
+        window.location.href = "hero.html"
     }
 })
 
@@ -43,7 +45,16 @@ $.ajax({
                 newView("td", [], { innerHTML: user.id }),
                 newView("td", [], { innerHTML: user.item.name }),
                 newView("td", [], { innerHTML: summary }),
-                newView("td", [], { innerHTML: "<button class=\"btn\">Delete</button>" }),
+                newView("td", [
+                    newView("button", [], {
+                        innerHTML: "Delete",
+                        classList: "btn",
+                        onClick: (e) => {
+                            let id = e.target.parentNode.parentNode.children[0].innerHTML
+                            delteHistoryItem(id)
+                        }
+                    })
+                ]),
             ]))
         })
 
@@ -61,6 +72,36 @@ $.ajax({
     }
 })
 
+function unBan(id) {
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/unBan',
+        data: {
+            id: id
+        },
+        success: (e) => {
+            if (e != "") {
+                window.location.reload()
+            }
+        }
+    })
+}
+
+function ban(id) {
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/ban',
+        data: {
+            id: id
+        },
+        success: (e) => {
+            if (e != "") {
+                window.location.reload()
+            }
+        }
+    })
+}
+
 $.ajax({
     method: "POST",
     url: 'http://localhost:8080/getUsersData',
@@ -72,20 +113,31 @@ $.ajax({
         let rows = []
         users.forEach((user) => {
 
+            let banButton = newView("button", [], {
+                innerHTML: "Ban",
+                classList: "btn",
+                onClick: (e) => {
+                    let id = e.target.parentNode.parentNode.children[0].innerHTML
+                    ban(id)
+                }
+            })
+
+            let unbanButton = newView("button", [], {
+                innerHTML: "Unban",
+                classList: "btn",
+                onClick: (e) => {
+                    let id = e.target.parentNode.parentNode.children[0].innerHTML
+                    unBan(id)
+                }
+            })
+
             rows.push(newView("tr", [
                 newView("td", [], { innerHTML: user.id }),
                 newView("td", [], { innerHTML: user.email }),
                 newView("td", [], { innerHTML: user.username }),
                 newView("td", [], { innerHTML: (user.admin) ? "true" : "false" }),
                 newView("td", [
-                    newView("button", [], {
-                        innerHTML: "Ban",
-                        classList: "btn",
-                        onClick: (e) => {
-                            let id = e.target.parentNode.parentNode.children[0].innerHTML
-                            // ban user
-                        }
-                    })
+                    (user.banned) ? unbanButton : banButton
                 ]),
                 newView("td", [],),
             ]))
@@ -97,6 +149,7 @@ $.ajax({
                 newView("th", [], { innerHTML: "Email" }),
                 newView("th", [], { innerHTML: "Username" }),
                 newView("th", [], { innerHTML: "Admin" }),
+                newView("th", [], { innerHTML: "Ban" }),
                 newView("th", [], { innerHTML: "" }),
             ]),
             newView("tbody", rows)

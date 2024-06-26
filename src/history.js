@@ -1,5 +1,5 @@
 import $ from "jquery"
-import { getUser, lock, logOut } from "./utils"
+import { getUser, lock, logOut, delteHistoryItem } from "./utils"
 
 lock()
 
@@ -65,30 +65,18 @@ $.ajax({
 
         $(".historyItem").each((_, item) => {
             item.addEventListener("click", (e) => {
-                if (e.target === item) {
-                    window.location.href = `edit.html?id=${item.id}`
+                let tag = e.target.tagName
+                if (tag == "BUTTON" || tag == "svg") {
+                    return
                 }
+
+                window.location.href = `edit.html?id=${item.id}`
             })
         })
 
         $(".delete-btn").each((_, button) => {
             button.addEventListener("click", () => {
-                $.ajax({
-                    method: "POST",
-                    url: 'http://localhost:8080/delHistory',
-                    data: {
-                        id: button.id
-                    },
-                    success: (res) => {
-                        if (res == "") {
-                            console.log("Delete failed")
-                            return
-                        }
-
-                        console.log(res)
-                        window.location.reload()
-                    }
-                })
+                delteHistoryItem(button.id)
             })
         })
     }
@@ -97,3 +85,4 @@ $.ajax({
 $("#logout-btn").on("click", () => {
     logOut()
 })
+

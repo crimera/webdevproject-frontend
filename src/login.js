@@ -24,6 +24,7 @@ loginForm.on("submit", (e) => {
                 return
             }
 
+            console.log(res)
             if (res == "banned") {
                 banned()
                 return

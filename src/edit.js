@@ -87,7 +87,6 @@ $("#add-btn").on("click", () => {
     $("#myModal").css("display", "block")
 })
 
-
 window.onclick = function(event) {
     let modal = document.getElementById("myModal")
     if (event.target == modal) {
@@ -169,4 +168,28 @@ $.ajax({
 
 $("#logout-btn").on("click", () => {
     logOut()
+})
+
+function timeToSeconds(timeString) {
+    let split = timeString.split(":")
+
+    let hour = Number(split[0]) * 3600
+    let minute = Number(split[1]) * 60
+    let second = Number(split[2])
+
+    return hour + minute + second
+}
+
+$("#preview").on("timeupdate", (e) => {
+    let time = e.target.currentTime
+    script.forEach((i, index) => {
+        let start = timeToSeconds(i.start)
+        let end = timeToSeconds(i.end)
+
+        if (time >= start && time <= end) {
+            document.getElementById("transcript").children[index].children[0].classList.add("current")
+        } else {
+            document.getElementById("transcript").children[index].children[0].classList.remove("current")
+        }
+    })
 })

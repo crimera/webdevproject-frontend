@@ -45,3 +45,22 @@ export function logOut() {
 export function banned() {
     $("#myModal").css("display", "block")
 }
+
+export function delteHistoryItem(id) {
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/delHistory',
+        data: {
+            id: id
+        },
+        success: (res) => {
+            if (res == "") {
+                console.log("Delete failed")
+                return
+            }
+
+            console.log(res)
+            window.location.reload()
+        }
+    })
+}
