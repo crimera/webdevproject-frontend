@@ -288,6 +288,7 @@ var Module = {
             notify("Done...")
             spinner.classList.toggle("spinner")
             exportBtn.removeAttribute("disabled")
+            document.getElementById("cancel-btn").classList.add("hidden")
             $("#save-btn").prop("disabled", false)
 
             var list = document.getElementsByClassName("transcript");
@@ -366,6 +367,7 @@ function loadPreview(file) {
             if (time >= start && time <= end) {
                 document.getElementById("transcript").children[index].children[0].classList.add("current")
             } else {
+                console.log(document.getElementById("transcript"))
                 document.getElementById("transcript").children[index].children[0].classList.remove("current")
             }
         })
@@ -466,9 +468,17 @@ function loadAudio(event) {
 
 // Transcribe
 
+$("#cancel-btn").on("click", () => {
+    notify("Aborting task...")
+    Module.abort()
+})
+
 var nthreads = 8;
 
 function onProcess(translate) {
+    // show cancel button
+    document.getElementById("cancel-btn").classList.remove("hidden")
+
     if (!instance) {
         instance = Module.init('whisper.bin');
 
