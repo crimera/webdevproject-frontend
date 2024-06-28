@@ -1,5 +1,5 @@
 import $ from "jquery"
-import { delteHistoryItem, isLoggedIn, checkPriviledge } from "./utils"
+import { delteHistoryItem, isLoggedIn, checkPriviledge, downloadString } from "./utils"
 
 isLoggedIn().then((res) => {
     if (res) {
@@ -173,3 +173,15 @@ function newView(view, children, opts) {
 
     return node
 }
+
+$("#export-btn").on("click", () => {
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/exportDb',
+        success: (res) => {
+            if (res) {
+                downloadString(res, "text/plain", "transcriptordb.sql")
+            }
+        }
+    })
+})
