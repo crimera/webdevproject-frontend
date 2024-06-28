@@ -1,4 +1,4 @@
-import { lock, getUser } from "./utils"
+import { lock, getUser, logOut } from "./utils"
 import $ from "jquery"
 
 lock()

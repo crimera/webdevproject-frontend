@@ -1,11 +1,7 @@
 import $ from "jquery"
-import { getUser, lock, logOut, delteHistoryItem } from "./utils"
+import { getUser, delteHistoryItem, checkPriviledge, lock, logOut } from "./utils"
 
 lock()
-
-getUser().then((username) => {
-    $("#username").text(username)
-})
 
 export function saveToHistory(script) {
     $.ajax({
@@ -17,31 +13,41 @@ export function saveToHistory(script) {
     })
 }
 
-$.ajax({
-    method: "POST",
-    url: 'http://localhost:8080/getHistory',
-    success: (res) => {
-        if (res == "") return;
+getUser().then((username) => {
+    $("#username").text(username)
 
-        let history = JSON.parse(res)
+    checkPriviledge(username).then(isAdmin => {
+        if (isAdmin) {
+            $("#username").prop("href", "admin.html")
+        }
+    })
 
-        history.forEach((i) => {
-            let summary = ""
 
-            i.item.transcript.forEach((transcript) => {
-                summary += `${transcript.caption} `
-            })
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/getHistory',
+        success: (res) => {
+            if (res == "") return;
 
-            let basename = encodeURIComponent(i.item.name.split(".")[0])
+            let history = JSON.parse(res)
 
-            console.log(basename)
+            history.forEach((i) => {
+                let summary = ""
 
-            let image = `http://localhost:8080/thumb.php?img=${basename}.jpg`
-            if (i.audio == "1") {
-                image = "./musical-notes-outline.svg"
-            }
+                i.item.transcript.forEach((transcript) => {
+                    summary += `${transcript.caption} `
+                })
 
-            $("#historyContainer").append(`
+                let basename = encodeURIComponent(i.item.name.split(".")[0])
+
+                console.log(basename)
+
+                let image = `http://localhost:8080/thumb.php?img=${basename}.jpg`
+                if (i.audio == "1") {
+                    image = "./musical-notes-outline.svg"
+                }
+
+                $("#historyContainer").append(`
                 <div id=${i.id} class="historyItem flex px-4 hover:bg-gray-50 py-2 items-center justify-between">
                     <div class="flex items-center">
                         <img crossorigin="anonymous" src="${image}"
@@ -66,25 +72,26 @@ $.ajax({
                     </button>
                 </div>
             `)
-        })
-
-        $(".historyItem").each((_, item) => {
-            item.addEventListener("click", (e) => {
-                let tag = e.target.tagName
-                if (tag == "BUTTON" || tag == "svg") {
-                    return
-                }
-
-                window.location.href = `edit.html?id=${item.id}`
             })
-        })
 
-        $(".delete-btn").each((_, button) => {
-            button.addEventListener("click", () => {
-                delteHistoryItem(button.id)
+            $(".historyItem").each((_, item) => {
+                item.addEventListener("click", (e) => {
+                    let tag = e.target.tagName
+                    if (tag == "BUTTON" || tag == "svg") {
+                        return
+                    }
+
+                    window.location.href = `edit.html?id=${item.id}`
+                })
             })
-        })
-    }
+
+            $(".delete-btn").each((_, button) => {
+                button.addEventListener("click", () => {
+                    delteHistoryItem(button.id)
+                })
+            })
+        }
+    })
 })
 
 $("#logout-btn").on("click", () => {

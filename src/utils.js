@@ -35,11 +35,12 @@ export function lock() {
 export function logOut() {
     $.ajax({
         method: "POST",
-        url: 'http://localhost:8080/logout'
+        url: 'http://localhost:8080/logout',
+        success: res => {
+            console.log("logout: " + res)
+            window.location.href = "login.html"
+        }
     })
-
-    window.location.reload()
-
 }
 
 export function banned() {
@@ -63,4 +64,16 @@ export function delteHistoryItem(id) {
             window.location.reload()
         }
     })
+}
+
+export async function checkPriviledge(username) {
+    let result = await $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/isAdmin',
+        data: {
+            username: username
+        }
+    })
+
+    return result != "0"
 }
