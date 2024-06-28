@@ -32,7 +32,7 @@ $.ajax({
                 summary += `${transcript.caption} `
             })
 
-            let basename = i.item.name.split(".")[0]
+            let basename = encodeURIComponent(i.item.name.split(".")[0])
 
             console.log(basename)
 

@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 .btn {
-    @apply border-[1.8px] py-1 px-2 rounded-md font-semibold shadow-sm enabled:hover:bg-neutral-50
+    @apply border-[1.8px] py-1 px-2 rounded-md font-semibold shadow-sm enabled:hover:bg-neutral-50 enabled:active:scale-90
+}
+
+button {
+    @apply enabled:active:scale-90
 }
 
 #preview {

@@ -356,7 +356,10 @@ function loadPreview(file) {
     node.controls = true
     document.getElementById("preview").replaceWith(node)
 
+    fileLoaded()
+}
 
+function fileLoaded() {
     document.getElementById("preview").addEventListener("timeupdate", (e) => {
         let time = e.target.currentTime
         script.forEach((i, index) => {
@@ -378,6 +381,114 @@ function resetExport() {
     exportBtn.setAttribute("disabled", true)
     script = []
 }
+
+async function fetchBlob(link) {
+    let shit
+    // Use fetch to fetch the image, and convert the resulting response to a blob
+    // Again, if any errors occur we report them in the console.
+    await fetch(link)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+            shit = response.blob();
+        })
+        .catch(err => console.error(`Fetch problem: ${err.message}`));
+    return shit
+}
+
+let vidLinkInput = $("#vid-link")
+let downloadVidBtn = $("#download-vid-btn")
+let linkForm = $("#link-form")
+
+vidLinkInput.on("input", () => {
+    let dlbtn = downloadVidBtn.get(0)
+    if (vidLinkInput.val() != "") {
+        dlbtn.removeAttribute("disabled")
+        dlbtn.children[0].classList.add("text-neutral-600")
+        dlbtn.children[0].classList.remove("text-gray-300")
+    } else {
+        dlbtn.setAttribute("disabled", "")
+        dlbtn.children[0].classList.remove("text-neutral-600")
+        dlbtn.children[0].classList.add("text-gray-300")
+    }
+})
+
+linkForm.on("submit", (e) => {
+    e.preventDefault()
+
+    $.ajax({
+        type: "POST",
+        url: 'http://localhost:8080/download',
+        data: linkForm.serialize(),
+        success: (res) => {
+            // success
+            if (res != "") {
+                filename = res
+                let fname = encodeURIComponent(res)
+                let link = `http://localhost:8080/vid.php?vid=${fname}`
+                $("#preview").prop("controls", true)
+                $("#preview").prop("src", link)
+                $(document).trigger("load-audio")
+            }
+        }
+    })
+
+    notify("Downloading, this will take a while...")
+})
+
+$(document).on("load-audio", async () => {
+    notify("Loading audio...")
+    let link = $("#preview").attr("src")
+    let file = await fetchBlob(link)
+
+    if (!context) {
+        context = new AudioContext({
+            sampleRate: kSampleRate,
+            channelCount: 1,
+            echoCancellation: false,
+            autoGainControl: true,
+            noiseSuppression: true,
+        });
+    }
+
+    document.getElementById("processBtn").setAttribute("disabled", true)
+
+    var reader = new FileReader();
+    reader.onload = function() {
+        var buf = new Uint8Array(reader.result);
+
+        context.decodeAudioData(buf.buffer, function(audioBuffer) {
+            var offlineContext = new OfflineAudioContext(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate);
+            var source = offlineContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(offlineContext.destination);
+            source.start(0);
+
+            offlineContext.startRendering().then(function(renderedBuffer) {
+                audio = renderedBuffer.getChannelData(0);
+                printTextarea('js: audio loaded, size: ' + audio.length);
+
+                toggleProcessBtn()
+                notify("Loaded audio")
+
+                // truncate to first 30 seconds
+                if (audio.length > kMaxAudio_s * kSampleRate) {
+                    audio = audio.slice(0, kMaxAudio_s * kSampleRate);
+                    printTextarea('js: truncated audio to first ' + kMaxAudio_s + ' seconds');
+                }
+
+                // setAudio(audio);
+            });
+        }, function(e) {
+            printTextarea('js: error decoding audio: ' + e);
+            audio = null;
+        });
+    }
+    reader.readAsArrayBuffer(file);
+
+    fileLoaded()
+})
 
 function loadAudio(event) {
     // upload vid to server

@@ -25,19 +25,37 @@
     </nav>
 
     <div id="main" class="flex flex-col lg:flex-row lg:mt-8 lg:mx-12">
-
         <div class=" flex flex-col flex-[1.25]">
-
             <!-- Preview -->
             <div id="previewDiv" class="flex flex-col justify-center content-center p-4 relative">
-                <div class="my-5">
-                    <label id="fileLabel" class="btn hover:bg-neutral-50 hover:cursor-pointer">
+                <div class="my-5 flex items-stretch">
+                    <label id="fileLabel" class="btn hover:bg-neutral-50 hover:cursor-pointer flex items-center">
                         <input class="hidden" type="file" id="file" name="file" onchange="loadAudio(event)" />
-                        Upload
+                        <p> Upload </p>
                     </label>
+                    <div class="flex items-center mx-2">
+                        <p class="text-neutral-600">or</p>
+                    </div>
+                    <form id="link-form" class="flex flex-1">
+                        <input type="url" name="vidlink" id="vid-link"
+                            class="border-y-2 border-l-2 rounded-r-none rounded-md px-2 w-full mx-0"
+                            placeholder="Youtube, or video link">
+                        <button type="submit" id="download-vid-btn"
+                            class="enabled:hover:bg-gray-100 disabled:opacity-50 mx-0 border-y-2 border-2 rounded-r-md enabled:border-neutral-600 enabled:text-neutral-600"
+                            disabled>
+                            <svg id="download-vid-icon" xmlns="http://www.w3.org/2000/svg"
+                                class="ionicon fill-current size-10 p-2 text-gray-300" viewBox="0 0 512 512">
+                                <path
+                                    d="M470.3 271.15L43.16 447.31a7.83 7.83 0 01-11.16-7V327a8 8 0 016.51-7.86l247.62-47c17.36-3.29 17.36-28.15 0-31.44l-247.63-47a8 8 0 01-6.5-7.85V72.59c0-5.74 5.88-10.26 11.16-8L470.3 241.76a16 16 0 010 29.39z"
+                                    fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="32" />
+                            </svg>
+                        </button>
+                    </form>
                 </div>
 
-                <video id="preview" class="border-2 bg-gray-50 border-dashed rounded lg:h-96 w-full"><video>
+                <video crossorigin="anonymous" id="preview"
+                    class="border-2 bg-gray-50 border-dashed rounded lg:h-96 w-full"><video>
             </div>
 
             <!-- Controls -->
