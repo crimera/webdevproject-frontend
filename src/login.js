@@ -10,9 +10,12 @@ isLoggedIn().then((res) => {
 })
 
 let loginForm = $("#login-form")
+let error = $("#error-container")
 
 loginForm.on("submit", (e) => {
     e.preventDefault()
+
+    error.addClass("invisible")
 
     $.ajax({
         type: "POST",
@@ -43,6 +46,7 @@ window.onclick = function(event) {
 }
 
 function loginFailed() {
-    // TODO: show login failed error
+    error.text("Wrong username or password")
+    error.removeClass("invisible")
     console.log("failed")
 }

@@ -1,7 +1,11 @@
-import { lock } from "./utils"
+import { lock, getUser } from "./utils"
 import $ from "jquery"
 
 lock()
+
+getUser().then((username) => {
+    $("#username").text(username)
+})
 
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');

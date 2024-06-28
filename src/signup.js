@@ -42,7 +42,6 @@ signupForm.on("submit", (e) => {
 
 
 function signupFailed() {
-    // TODO: show signup failed error
     console.log("failed")
 }
 

@@ -15,18 +15,10 @@
                 Transcriptor
             </a>
         </div>
-        <div id="links" class="invisible lg:visible">
-            <a href="#" class="text-blue-600 border-blue-200 hover:bg-blue-50">
-                Facebook
-            </a>
-            <a href="#" class="text-violet-900 border-violet-200 hover:bg-violet-50">
-                Discord
-            </a>
-            <a href="#" class="text-blue-400 border-blue-200 hover:bg-blue-50">
-                Twitter
-            </a>
-            <button id="logout-btn" class="text-red-400 border-red-200 hover:bg-red-50">
-                Logout
+        <div id="links" class="text-center flex items-center">
+            <a id="username" class="mr-2 font-medium"></a>
+            <button id="logout-btn">
+                <p class="text-sm font-medium">Logout</p>
             </button>
         </div>
     </nav>
@@ -55,7 +47,7 @@
         </div>
     </div>
 
-    <div class="flex mt-6 mx-10">
+    <div class="flex lg:mt-6 lg:mx-10 flex-col lg:flex-row">
         <!-- Preview -->
         <div class="flex-1 flex flex-col justify-center content-center p-4 relative">
             <h1 id="filename" class="mb-2 font-medium text-neutral-700"></h1>
