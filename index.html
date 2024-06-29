@@ -41,7 +41,7 @@
                             class="border-y-2 border-l-2 rounded-r-none rounded-md px-2 w-full mx-0"
                             placeholder="Youtube, or video link">
                         <button type="submit" id="download-vid-btn"
-                            class="enabled:hover:bg-gray-100 disabled:opacity-50 mx-0 border-y-2 border-2 rounded-r-md enabled:border-neutral-600 enabled:text-neutral-600"
+                            class="enabled:hover:bg-gray-100 disabled:opacity-50 mx-0 border-y-2 border-2 rounded-r-md enabled:border-neutral-600 enabled:text-neutral-600 size-10 flex items-center"
                             disabled>
                             <svg id="download-vid-icon" xmlns="http://www.w3.org/2000/svg"
                                 class="ionicon fill-current size-10 p-2 text-gray-300" viewBox="0 0 512 512">
@@ -50,6 +50,7 @@
                                     fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="32" />
                             </svg>
+                            <div id="downloading-video" class="m-2 my-4 hidden"></div>
                         </button>
                     </form>
                 </div>

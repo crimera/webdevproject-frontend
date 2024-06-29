@@ -269,6 +269,18 @@ function fileToSrt(name) {
     return `${fname}.srt`
 }
 
+function downloadingVidLink(downloading) {
+    if (downloading) {
+        document.getElementById("downloading-video").classList.add("spinner")
+        document.getElementById("downloading-video").classList.remove("hidden")
+        document.getElementById("download-vid-icon").classList.add("hidden")
+    } else {
+        document.getElementById("downloading-video").classList.remove("spinner")
+        document.getElementById("downloading-video").classList.add("hidden")
+        document.getElementById("download-vid-icon").classList.remove("hidden")
+    }
+}
+
 var Module = {
     print: (message) => {
         // clean
@@ -430,10 +442,12 @@ linkForm.on("submit", (e) => {
                 $("#preview").prop("controls", true)
                 $("#preview").prop("src", link)
                 $(document).trigger("load-audio")
+                downloadingVidLink(false)
             }
         }
     })
 
+    downloadingVidLink(true)
     notify("Downloading, this will take a while...")
 })
 
