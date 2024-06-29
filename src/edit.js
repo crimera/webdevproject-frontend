@@ -1,5 +1,5 @@
 import { lock, getUser, logOut, downloadString } from "./utils"
-import $ from "jquery"
+import $, { ajax, event, removeData } from "jquery"
 
 lock()
 
@@ -16,14 +16,27 @@ let filename = null
 
 function addTranscript(transcript) {
     script.push(transcript)
-    let time = transcript.start.split(":")
+    let start = transcript.start.split(":")
+    let end = transcript.end.split(":")
 
     let transcriptNode = document.querySelector("#transcript")
 
     let content = document.createElement("p")
     content.innerHTML = `
     <div class="transcript">
-        <button id="time">${time[1]}:${time[2]}</button>
+        <button id="time" class="flex">
+            <div class="flex flex-col lg:flex-row gap-1">
+            <p>
+                ${start[1]}:${start[2]}
+            </p>
+            <p class="lg:block hidden">
+            -
+            </p>
+            <p>
+                ${end[1]}:${end[2]}
+            </p>
+                </div>
+        </button>
         <p id="${count++}" class="content">${transcript.caption}</p>
         <button id="edit" class="edit">Edit</button>
     </div>
@@ -77,17 +90,33 @@ $("#save-btn").on("click", () => {
     saveToHistory(script)
 })
 
+/**
+* Need to explain the purpose of X here.
+* @type {HTMLDialogElement}
+*/
+let addDialog = document.getElementById("myModal")
+
 $("#add-btn").on("click", () => {
-    console.log("add clicked")
-    $("#myModal").css("display", "block")
+
+    let currentTime = preview.currentTime
+    if (currentTime) {
+        addCaptionForm.querySelector("input[name=start]").value = formatTime(currentTime)
+        addCaptionForm.querySelector("input[name=end]").value = formatTime(currentTime + 1)
+    }
+
+    console.log(script)
+
+    addDialog.showModal()
 })
 
-window.onclick = function(event) {
-    let modal = document.getElementById("myModal")
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+
+addDialog.addEventListener('click', (e) => {
+    addDialog.close()
+});
+
+addDialog.children[0].addEventListener("click", (event) => {
+    event.stopPropagation()
+})
 
 let exportBtn = document.getElementById("exportBtn")
 exportBtn.addEventListener('click', () => {
@@ -176,6 +205,16 @@ function timeToSeconds(timeString) {
     return hour + minute + second + millis
 }
 
+function formatTime(seconds) {
+    const date = new Date(seconds * 1000);
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const secondsFormatted = date.getUTCSeconds().toString().padStart(2, '0');
+    const millis = (seconds + "").split(".")[1].slice(3).padStart(3, '0')
+
+    return `${hours}:${minutes}:${secondsFormatted}:${millis}`;
+}
+
 $("#preview").on("timeupdate", (e) => {
     let time = e.target.currentTime
     script.forEach((i, index) => {
@@ -189,3 +228,37 @@ $("#preview").on("timeupdate", (e) => {
         }
     })
 })
+
+let addCaptionForm = document.getElementById("addCaption-form")
+/** @type {HTMLVideoElement} **/
+let preview = document.getElementById("preview")
+
+addCaptionForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+
+
+    let formData = new FormData(e.target)
+    let object = {
+        start: formData.get("start"),
+        end: formData.get("end"),
+        caption: formData.get("caption"),
+    }
+
+    let i = 0
+    let found = false;
+    script.forEach((item, index) => {
+        if (timeToSeconds(object.start) < timeToSeconds(item.start) && !found) {
+            i = index
+            found = true
+        }
+    })
+
+    addCaption(i, object)
+})
+
+function addCaption(index, object) {
+    script.splice(index, 0, object)
+
+    saveToHistory(script)
+    window.location.reload()
+}

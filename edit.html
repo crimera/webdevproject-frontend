@@ -25,27 +25,32 @@
 
 
     <!-- The Modal -->
-    <div id="myModal" class="modal">
-
+    <dialog id="myModal" class="border rounded p-2">
         <!-- Modal content -->
-        <div class="modal-content flex gap-2 items-center">
-            <div class="flex border p-2">
-                <p>Start: </p>
-                <input id="start-inpt" type="time" step="1" class="without_ampm ml-2 m-0">
+        <form id="addCaption-form" class="flex flex-col lg:flex-row gap-2 lg:items-center m-0">
+            <input name="index" type="hidden">
+            <label for="start">Start: </label>
+            <input name="start" id="start" type="text" placeholder="[hh:mm:ss:ms]" value="00:00:00:00"
+                class="m-0 border p-2 lg:w-[160px] rounded-md">
+            <label for="end">End: </label>
+            <input name="end" id="end" type="text" placeholder="[hh:mm:ss:ms]" value="00:00:00:00"
+                class="m-0 border p-2 lg:w-[160px] rounded-md">
+            <div class="flex flex-col lg:flex-row gap-2">
+                <input name="caption" type="text" class="flex-1 m-0 p-2 border w-80 rounded-md" placeholder="Caption">
+                <div class="flex justify-end m-0">
+                    <button type="submit" id="saveitem-btn"
+                        class="rounded-full enabled:hover:bg-gray-100 disabled:opacity-50 flex items-center justify-center border-2 lg:border-none pr-4 lg:pr-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon fill-current size-10 p-2"
+                            viewBox="0 0 512 512">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="32" d="M256 112v288M400 256H112" />
+                        </svg>
+                        <p class="lg:hidden">Add Caption</p>
+                    </button>
+                </div>
             </div>
-            <div class="flex ml-2 border items-center p-2">
-                <p>End: </p>
-                <input id="end-inpt" type="time" step="1" class="without_ampm ml-2 m-0">
-            </div>
-            <input type="text" class="flex-1 mx-2 m-0 p-2  border" placeholder="Caption">
-            <button id="saveitem-btn" class="rounded-full enabled:hover:bg-gray-100 disabled:opacity-50">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon fill-current size-10 p-2" viewBox="0 0 512 512">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="32" d="M256 112v288M400 256H112" />
-                </svg>
-            </button>
-        </div>
-    </div>
+        </form>
+    </dialog>
 
     <div class="flex lg:mt-6 lg:mx-10 flex-col lg:flex-row">
         <!-- Preview -->

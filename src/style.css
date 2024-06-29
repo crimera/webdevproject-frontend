@@ -54,11 +54,11 @@ button {
 }
 
 .transcript>#time {
-    @apply bg-white mt-0.5 rounded-xl px-2 text-blue-900
+    @apply bg-white mt-0.5 rounded-xl px-2 text-blue-900 lg:w-[150px] gap-1 items-center justify-center
 }
 
 .transcript>p, input {
-    @apply ml-10 mr-10 w-full
+    @apply ml-5 mr-10 w-full
 }
 
 .transcript.show:hover>#edit {
@@ -120,6 +120,7 @@ button {
 }
 
 /* History */
+
 .historyItem .delete-btn {
     @apply invisible
 }
@@ -144,6 +145,7 @@ button {
 }
 
 /* Modal */
+
 .modal {
     display: none;
     /* Hidden by default */
