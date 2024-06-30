@@ -382,7 +382,6 @@ function fileLoaded() {
             if (time >= start && time <= end) {
                 document.getElementById("transcript").children[index].children[0].classList.add("current")
             } else {
-                console.log(document.getElementById("transcript"))
                 document.getElementById("transcript").children[index].children[0].classList.remove("current")
             }
         })
@@ -665,6 +664,11 @@ function addTranscript(transcript) {
         <button id="edit" onClick="editContent(this, event)">Edit</button>
     </div>
     `
+    content.querySelector("button").addEventListener("click", () => {
+        let index = content.querySelector("p.content").id * 1
+        let timestamp = timeToSeconds(parseTimeStamp(script[index]).start) + 0.1
+        preview.currentTime = timestamp
+    })
 
     transcriptNode.appendChild(content)
     //scrollBottom(transcriptNode)
@@ -789,7 +793,6 @@ function parseTimeStamp(timestamp) {
     timestamp = timestamp
         .replace('[', '')
         .replace(']', '')
-
 
     timestamp = timestamp.split('-->')
     let startComplete = timestamp[0].split(':')

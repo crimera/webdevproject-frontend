@@ -14,6 +14,10 @@ let script = []
 let count = 0
 let filename = null
 
+function goToTimestamp(item) {
+    console.log(item)
+}
+
 function addTranscript(transcript) {
     script.push(transcript)
     let start = transcript.start.split(":")
@@ -21,26 +25,31 @@ function addTranscript(transcript) {
 
     let transcriptNode = document.querySelector("#transcript")
 
-    let content = document.createElement("p")
+    let content = document.createElement("div")
     content.innerHTML = `
     <div class="transcript">
         <button id="time" class="flex">
             <div class="flex flex-col lg:flex-row gap-1">
-            <p>
-                ${start[1]}:${start[2]}
-            </p>
-            <p class="lg:block hidden">
-            -
-            </p>
-            <p>
-                ${end[1]}:${end[2]}
-            </p>
-                </div>
+                <p>
+                    ${start[1]}:${start[2]}
+                </p>
+                <p class="lg:block hidden">
+                    -
+                </p>
+                <p>
+                    ${end[1]}:${end[2]}
+                </p>
+            </div>
         </button>
         <p id="${count++}" class="content">${transcript.caption}</p>
         <button id="edit" class="edit">Edit</button>
     </div>
     `
+    content.querySelector("button").addEventListener("click", () => {
+        let index = content.querySelector("p.content").id * 1
+        let timestamp = timeToSeconds(script[index].start) + 0.1
+        preview.currentTime = timestamp
+    })
 
     transcriptNode.appendChild(content)
     //scrollBottom(transcriptNode)
