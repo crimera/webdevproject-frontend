@@ -28,6 +28,13 @@ dist-ssr
 
 tests
 
-# ignore models
+# Models
 public/ggml-model-whisper-*
+
+# Tailwind output
 public/output.css
+
+# Whisperwasm
+public/libmain.worker.js
+public/helpers.js
+public/main.js
