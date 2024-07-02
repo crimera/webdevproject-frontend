@@ -1,5 +1,5 @@
 import { lock, getUser, logOut, downloadString } from "./utils"
-import $, { ajax, event, removeData } from "jquery"
+import $, { ajax } from "jquery"
 
 lock()
 
@@ -25,7 +25,7 @@ function addTranscript(transcript) {
 
     let transcriptNode = document.querySelector("#transcript")
 
-    let content = document.createElement("div")
+    let content = document.createElement("p")
     content.innerHTML = `
     <div class="transcript">
         <button id="time" class="flex">
@@ -43,6 +43,11 @@ function addTranscript(transcript) {
         </button>
         <p id="${count++}" class="content">${transcript.caption}</p>
         <button id="edit" class="edit">Edit</button>
+        <button id="delete" class="flex items-start mt-[1px] delete">
+            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon fill-current size-6" viewBox="0 0 512 512">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/>
+            </svg>
+        </button>
     </div>
     `
     content.querySelector("button").addEventListener("click", () => {
@@ -162,6 +167,12 @@ $.ajax({
             console.log(item.classList.add("show"));
         }
 
+        $(".delete").on("click", (e) => {
+            let index = e.target.parentElement.parentElement.children[1].id * 1
+            script.splice(index, 1)
+            saveToHistory(script)
+            location.reload()
+        })
 
         $(".edit").on("click", (e) => {
             let node = e.target

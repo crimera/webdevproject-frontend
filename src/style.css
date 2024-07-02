@@ -46,7 +46,7 @@ button {
 
 /* Transcript */
 .transcript {
-    @apply flex p-4 items-start relative
+    @apply flex p-4 items-start relative gap-2
 }
 
 .transcript.current {
@@ -65,12 +65,21 @@ button {
     @apply visible
 }
 
-.transcript:hover {
-    @apply bg-white rounded-md shadow-sm
+.transcript>#edit {
+    @apply invisible mr-3
 }
 
-.transcript>#edit {
-    @apply invisible absolute right-0 mr-3
+
+.transcript.show:hover>#delete {
+    @apply visible
+}
+
+.transcript>#delete {
+    @apply invisible mr-3
+}
+
+.transcript:hover {
+    @apply bg-white rounded-md shadow-sm
 }
 
 #transcriptContainer {
