@@ -27,3 +27,6 @@ dist-ssr
 *.sw?
 
 tests
+
+# ignore models
+public/ggml-model-whisper-*
