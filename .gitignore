@@ -30,3 +30,4 @@ tests
 
 # ignore models
 public/ggml-model-whisper-*
+public/output.css
